@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use App\Services\BoardService;
-use Throwable;
+use Illuminate\Auth\Access\AuthorizationException;
 
 class UserController extends Controller
 {
@@ -19,7 +19,7 @@ class UserController extends Controller
     {
         try {
             $boards = $this->boardService->getAllUserBoards($user);
-        } catch (Throwable $e) {
+        } catch (AuthorizationException $e) {
             abort(403);
         }
 

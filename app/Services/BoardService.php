@@ -5,11 +5,12 @@ namespace App\Services;
 use App\Models\Board;
 use App\Models\User;
 use Illuminate\Auth\Access\AuthorizationException;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Auth;
 
 class BoardService
 {
-    public function create(array $data)
+    public function create(array $data): Board
     {
         $board = Board::create([
             'name' => $data['name'],
@@ -19,7 +20,7 @@ class BoardService
         return $board;
     }
 
-    public function update(Board $board, array $data)
+    public function update(Board $board, array $data): Board
     {
         $board->fill([
             'name' => $data['name'],
@@ -28,12 +29,12 @@ class BoardService
         return $board;
     }
 
-    public function delete(Board $board)
+    public function delete(Board $board): void
     {
         $board->delete();
     }
 
-    public function getAllUserBoards(User $user)
+    public function getAllUserBoards(User $user): Collection
     {
         if (Auth::id() !== $user->id) {
             throw new AuthorizationException();
