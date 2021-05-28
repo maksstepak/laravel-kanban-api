@@ -34,7 +34,7 @@ class BoardService
         $board->delete();
     }
 
-    public function getAllUserBoards(User $user): Collection
+    public function getAllBoardsForUser(User $user): Collection
     {
         if (Auth::id() !== $user->id) {
             throw new AuthorizationException();

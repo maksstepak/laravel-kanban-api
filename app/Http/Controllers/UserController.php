@@ -18,7 +18,7 @@ class UserController extends Controller
     public function boards(User $user)
     {
         try {
-            $boards = $this->boardService->getAllUserBoards($user);
+            $boards = $this->boardService->getAllBoardsForUser($user);
         } catch (AuthorizationException $e) {
             abort(403);
         }
