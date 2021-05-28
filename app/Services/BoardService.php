@@ -26,6 +26,8 @@ class BoardService
             'name' => $data['name'],
         ]);
 
+        $board->save();
+
         return $board;
     }
 
