@@ -3,17 +3,22 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreBoardRequest;
+use App\Http\Requests\StoreColumnRequest;
 use App\Models\Board;
 use App\Services\BoardService;
+use App\Services\ColumnService;
 use Illuminate\Support\Facades\Gate;
 
 class BoardController extends Controller
 {
     protected $boardService;
 
-    public function __construct(BoardService $boardService)
+    protected $columnService;
+
+    public function __construct(BoardService $boardService, ColumnService $columnService)
     {
         $this->boardService = $boardService;
+        $this->columnService = $columnService;
     }
 
     /**
@@ -73,5 +78,22 @@ class BoardController extends Controller
         return response()->json([
             'message' => 'success'
         ]);
+    }
+
+    public function columns(Board $board)
+    {
+        Gate::authorize('view', $board);
+        
+        return $board->columns;
+    }
+
+    public function storeColumn(StoreColumnRequest $request, Board $board)
+    {
+        Gate::authorize('update', $board);
+
+        $validated = $request->validated();
+        $column = $this->columnService->create($validated, $board);
+
+        return $column;
     }
 }

@@ -19,4 +19,9 @@ class Board extends Model
         'name',
         'user_id',
     ];
+
+    public function columns()
+    {
+        return $this->hasMany(Column::class);
+    }
 }

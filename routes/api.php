@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BoardController;
+use App\Http\Controllers\ColumnController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -26,4 +27,8 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/users/{user}/boards', [UserController::class, 'boards']);
 
     Route::apiResource('boards', BoardController::class)->except('index');
+    Route::get('/boards/{board}/columns', [BoardController::class, 'columns']);
+    Route::post('/boards/{board}/columns', [BoardController::class, 'storeColumn']);
+
+    Route::apiResource('columns', ColumnController::class)->except(['index', 'store']);
 });
