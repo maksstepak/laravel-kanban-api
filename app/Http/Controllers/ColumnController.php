@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreCardRequest;
 use App\Http\Requests\StoreColumnRequest;
+use App\Http\Resources\CardResource;
 use App\Http\Resources\ColumnResource;
 use App\Models\Column;
 use App\Services\CardService;
@@ -73,7 +74,7 @@ class ColumnController extends Controller
     {
         Gate::authorize('view', $column);
 
-        return $column->cards;
+        return CardResource::collection($column->cards);
     }
 
     public function storeCard(StoreCardRequest $request, Column $column)
@@ -83,6 +84,6 @@ class ColumnController extends Controller
         $validated = $request->validated();
         $card = $this->cardService->create($validated, $column);
 
-        return $card;
+        return (new CardResource($card))->response()->setStatusCode(201);
     }
 }

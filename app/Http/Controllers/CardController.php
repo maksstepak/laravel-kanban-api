@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreCardRequest;
+use App\Http\Resources\CardResource;
 use App\Models\Card;
 use App\Services\CardService;
 use Illuminate\Support\Facades\Gate;
@@ -26,7 +27,7 @@ class CardController extends Controller
     {
         Gate::authorize('view', $card);
 
-        return $card;
+        return new CardResource($card);
     }
 
     /**
@@ -43,7 +44,7 @@ class CardController extends Controller
         $validated = $request->validated();
         $this->cardService->update($validated, $card);
 
-        return $card;
+        return new CardResource($card);
     }
 
     /**
