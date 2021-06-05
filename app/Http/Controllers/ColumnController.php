@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreCardRequest;
 use App\Http\Requests\StoreColumnRequest;
+use App\Http\Resources\ColumnResource;
 use App\Models\Column;
 use App\Services\CardService;
 use App\Services\ColumnService;
@@ -31,7 +32,7 @@ class ColumnController extends Controller
     {
         Gate::authorize('view', $column);
 
-        return $column;
+        return new ColumnResource($column);
     }
 
     /**
@@ -48,7 +49,7 @@ class ColumnController extends Controller
         $validated = $request->validated();
         $this->columnService->update($validated, $column);
 
-        return $column;
+        return (new ColumnResource($column))->response()->setStatusCode(201);
     }
 
     /**

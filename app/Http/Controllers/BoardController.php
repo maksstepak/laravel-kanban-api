@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreBoardRequest;
 use App\Http\Requests\StoreColumnRequest;
 use App\Http\Resources\BoardResource;
+use App\Http\Resources\ColumnResource;
 use App\Models\Board;
 use App\Services\BoardService;
 use App\Services\ColumnService;
@@ -85,7 +86,7 @@ class BoardController extends Controller
     {
         Gate::authorize('view', $board);
         
-        return $board->columns;
+        return ColumnResource::collection($board->columns);
     }
 
     public function storeColumn(StoreColumnRequest $request, Board $board)
@@ -95,6 +96,6 @@ class BoardController extends Controller
         $validated = $request->validated();
         $column = $this->columnService->create($validated, $board);
 
-        return $column;
+        return new ColumnResource($column);
     }
 }
