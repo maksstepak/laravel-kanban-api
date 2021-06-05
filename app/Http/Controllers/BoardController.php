@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreBoardRequest;
 use App\Http\Requests\StoreColumnRequest;
+use App\Http\Resources\BoardResource;
 use App\Models\Board;
 use App\Services\BoardService;
 use App\Services\ColumnService;
@@ -32,7 +33,7 @@ class BoardController extends Controller
         $validated = $request->validated();
         $board = $this->boardService->create($validated);
 
-        return $board;
+        return (new BoardResource($board))->response()->setStatusCode(201);
     }
 
     /**
@@ -45,7 +46,7 @@ class BoardController extends Controller
     {
         Gate::authorize('view', $board);
 
-        return $board;
+        return new BoardResource($board);
     }
 
     /**
@@ -60,7 +61,7 @@ class BoardController extends Controller
         $validated = $request->validated();
         $this->boardService->update($board, $validated);
 
-        return $board;
+        return new BoardResource($board);
     }
 
     /**

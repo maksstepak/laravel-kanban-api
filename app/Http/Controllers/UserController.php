@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\BoardResource;
 use App\Models\User;
 use App\Services\BoardService;
 use Illuminate\Auth\Access\AuthorizationException;
@@ -23,6 +24,6 @@ class UserController extends Controller
             abort(403);
         }
 
-        return $boards;
+        return BoardResource::collection($boards);
     }
 }
