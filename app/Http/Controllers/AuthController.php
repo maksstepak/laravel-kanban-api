@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\RegisterRequest;
+use App\Http\Resources\UserResource;
 use App\Services\UserService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -20,7 +21,7 @@ class AuthController extends Controller
     {
         $validated = $request->validated();
         $user = $this->userService->create($validated);
-        return $user;
+        return new UserResource($user);
     }
 
     public function login(Request $request)
@@ -52,6 +53,6 @@ class AuthController extends Controller
 
     public function me(Request $request)
     {
-        return $request->user();
+        return new UserResource($request->user());
     }
 }
