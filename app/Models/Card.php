@@ -21,4 +21,9 @@ class Card extends Model
         'description',
         'due_date'
     ];
+
+    public function column()
+    {
+        return $this->belongsTo(Column::class);
+    }
 }

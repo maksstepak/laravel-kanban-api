@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreCardRequest;
 use App\Http\Requests\StoreColumnRequest;
 use App\Models\Column;
+use App\Services\CardService;
 use App\Services\ColumnService;
 use Illuminate\Support\Facades\Gate;
 
@@ -11,9 +13,12 @@ class ColumnController extends Controller
 {
     protected $columnService;
 
-    public function __construct(ColumnService $columnService)
+    protected $cardService;
+
+    public function __construct(ColumnService $columnService, CardService $cardService)
     {
         $this->columnService = $columnService;
+        $this->cardService = $cardService;
     }
     
     /**
@@ -61,5 +66,22 @@ class ColumnController extends Controller
         return response()->json([
             'message' => 'success'
         ]);
+    }
+
+    public function cards(Column $column)
+    {
+        Gate::authorize('view', $column);
+
+        return $column->cards;
+    }
+
+    public function storeCard(StoreCardRequest $request, Column $column)
+    {
+        Gate::authorize('update', $column);
+
+        $validated = $request->validated();
+        $card = $this->cardService->create($validated, $column);
+
+        return $card;
     }
 }
