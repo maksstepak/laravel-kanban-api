@@ -46,7 +46,7 @@ class ColumnController extends Controller
         Gate::authorize('update', $column);
 
         $validated = $request->validated();
-        $column = $this->columnService->update($validated, $column);
+        $this->columnService->update($validated, $column);
 
         return $column;
     }

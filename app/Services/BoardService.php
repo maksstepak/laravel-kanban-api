@@ -20,15 +20,13 @@ class BoardService
         return $board;
     }
 
-    public function update(Board $board, array $data): Board
+    public function update(Board $board, array $data): void
     {
         $board->fill([
             'name' => $data['name'],
         ]);
 
         $board->save();
-
-        return $board;
     }
 
     public function delete(Board $board): void

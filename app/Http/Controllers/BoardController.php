@@ -58,7 +58,7 @@ class BoardController extends Controller
     public function update(StoreBoardRequest $request, Board $board)
     {
         $validated = $request->validated();
-        $board = $this->boardService->update($board, $validated);
+        $this->boardService->update($board, $validated);
 
         return $board;
     }

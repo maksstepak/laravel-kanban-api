@@ -17,15 +17,13 @@ class ColumnService
         return $column;
     }
 
-    public function update(array $data, Column $column): Column
+    public function update(array $data, Column $column): void
     {
         $column->fill([
             'name' => $data['name']
         ]);
 
         $column->save();
-
-        return $column;
     }
 
     public function delete(Column $column): void
